@@ -141,7 +141,8 @@ def get_soil_moisture_plot(df):
         name='Нижняя полка',
     ))
 
-    watering_top = df.groupby('last_watering_time_top').first().reset_index()[1:]
+    df = df[df['last_watering_time_top'] > df['ts'].min()]
+    watering_top = df.groupby('last_watering_time_top').first().reset_index()
     fig.add_trace(go.Scatter(
         x=watering_top['last_watering_time_top'], y=watering_top['soil_moisture_top'],
         line_color='rgb(255,0,0)',
@@ -149,7 +150,7 @@ def get_soil_moisture_plot(df):
         name='Полив, верх',
     ))
 
-    watering_bottom = df.groupby('last_watering_time_bottom').first().reset_index()[1:]
+    watering_bottom = df.groupby('last_watering_time_bottom').first().reset_index()
     fig.add_trace(go.Scatter(
         x=watering_bottom['last_watering_time_bottom'], y=watering_bottom['soil_moisture_bottom'],
         line_color='rgb(255,0,0)',

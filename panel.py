@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route("/")
 def hello_world():
     date_to = datetime.now()
-    date_from = date_to - timedelta(days=3)
+    date_from = date_to - timedelta(days=2)
     df = get_log(date_from, date_to)
     temperature_plot = get_temperature_plot(df)
     co2_plot = get_co2_plot(df)
