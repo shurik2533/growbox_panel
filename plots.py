@@ -26,18 +26,21 @@ def get_temperature_plot(df):
         x=df['ts'], y=df['thermometer_top'],
         line_color='rgb(238,130,238)',
         name='Верхний',
+        connectgaps=True
     ))
 
     fig.add_trace(go.Scatter(
         x=df['ts'], y=df['thermometer_bottom'],
         line_color='rgb(106,90,205)',
         name='Нижний',
+        connectgaps=True
     ))
 
     fig.add_trace(go.Scatter(
         x=df['ts'], y=df['thermometer_external'],
         line_color='rgb(0,100,0)',
         name='Внешний',
+        connectgaps=True
     ))
 
     fig.add_trace(go.Scatter(
@@ -47,6 +50,13 @@ def get_temperature_plot(df):
     ))
 
     fig.update_traces(mode='lines')
+    fig.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1
+    ))
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
@@ -73,10 +83,19 @@ def get_co2_plot(df):
         x=df['ts'], y=df['co2'],
         line_color='rgb(124,185,232)',
         name='CO2',
+        connectgaps=True
     ))
 
     fig.update_traces(mode='lines')
     fig.update_layout(showlegend=True)
+    fig.update_xaxes(range=[df['ts'].min(), df['ts'].max()])
+    fig.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1
+    ))
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
@@ -103,10 +122,19 @@ def get_humidity_plot(df):
         x=df['ts'], y=df['humidity'],
         line_color='rgb(124,185,232)',
         name='Humidity',
+        connectgaps=True
     ))
 
     fig.update_traces(mode='lines')
     fig.update_layout(showlegend=True)
+    fig.update_xaxes(range=[df['ts'].min(), df['ts'].max()])
+    fig.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1
+    ))
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
@@ -133,12 +161,16 @@ def get_soil_moisture_plot(df):
         x=df['ts'], y=df['soil_moisture_top'],
         line_color='rgb(255,166,77)',
         name='Верхняя полка',
+        connectgaps=True,
+        mode='lines'
     ))
 
     fig.add_trace(go.Scatter(
         x=df['ts'], y=df['soil_moisture_bottom'],
         line_color='rgb(153,77,0)',
         name='Нижняя полка',
+        connectgaps=True,
+        mode='lines'
     ))
 
     df = df[df['last_watering_time_top'] > df['ts'].min()]
@@ -159,6 +191,14 @@ def get_soil_moisture_plot(df):
     ))
 
     fig.update_layout(showlegend=True)
+    fig.update_xaxes(range=[df['ts'].min(), df['ts'].max()])
+    fig.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1
+    ))
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
@@ -180,6 +220,7 @@ def get_lighting_plot(df):
             }
         }
     )
+
     fig.add_trace(go.Scatter(
         x=df['ts'], y=df['light_1'].apply(lambda x: None if x < 0 else x),
         line_color='rgb(255,0,0)',
@@ -196,4 +237,12 @@ def get_lighting_plot(df):
 
     fig.update_traces(mode='lines')
     fig.update_layout(showlegend=True)
+    fig.update_xaxes(range=[df['ts'].min(), df['ts'].max()])
+    fig.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1
+    ))
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
