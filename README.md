@@ -15,3 +15,6 @@ PORT = 'masqlport'
 sudo docker build --tag panel ./
 sudo docker run panel
 ```
+
+# Example
+![Panel example](files/panel_example.jpg "Panel example")
