@@ -4,7 +4,8 @@ import json
 
 from config.db import USER, PASSWORD, HOST, PORT, DATABASE
 
-WINDOW = 60
+WINDOW_SHORT = 60
+WINDOW_LONG = 600
 
 
 def get_log(date_from, date_to):
@@ -28,10 +29,12 @@ def get_log(date_from, date_to):
         log['light_1'] = log['log'].apply(lambda x: 1 if x['light']['1'] == 'ON' else -1)
         log['light_2'] = log['log'].apply(lambda x: 2 if x['light']['2'] == 'ON' else -1)
 
-        window_columns = ['thermometer_top', 'thermometer_bottom', 'thermometer_external', 'co2', 'humidity',
-                   'soil_moisture_top', 'soil_moisture_bottom']
-        log[window_columns] = log[window_columns].rolling(window=WINDOW).mean()
-        log[window_columns] = log[window_columns].apply(lambda x: round(x, 2))
+        window_short_columns = ['thermometer_top', 'thermometer_bottom', 'thermometer_external', 'co2', 'humidity']
+        window_long_columns = ['soil_moisture_top', 'soil_moisture_bottom']
+        log[window_short_columns] = log[window_short_columns].rolling(window=WINDOW_SHORT).mean()
+        log[window_short_columns] = log[window_short_columns].apply(lambda x: round(x, 2))
+        log[window_long_columns] = log[window_long_columns].rolling(window=WINDOW_LONG).mean()
+        log[window_long_columns] = log[window_long_columns].apply(lambda x: round(x, 2))
         log = log.dropna()
         del log['log']
         log = log.groupby(pd.Grouper(key='ts', freq='1min')).last().reset_index()
