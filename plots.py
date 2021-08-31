@@ -246,3 +246,47 @@ def get_lighting_plot(df):
         x=1
     ))
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+
+def get_fan_plot(df):
+    fig = go.Figure(
+        layout={
+            'title': {
+                'text': 'Обороты кулеров',
+                'xanchor': 'left',
+                'xref': 'paper',
+                'x': 0,
+                'y': 0.92
+            },
+            'yaxis_title': "%",
+            'yaxis_side': 'right',
+            'margin': {
+                't': 40,
+                'b': 10
+            }
+        }
+    )
+
+    fig.add_trace(go.Scatter(
+        x=df['ts'], y=df['fan_top'],
+        line_color='rgb(238,130,238)',
+        name='Верхний',
+        connectgaps=True
+    ))
+
+    fig.add_trace(go.Scatter(
+        x=df['ts'], y=df['fan_bottom'],
+        line_color='rgb(106,90,205)',
+        name='Нижний',
+        connectgaps=True
+    ))
+
+    fig.update_traces(mode='lines')
+    fig.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1
+    ))
+    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)

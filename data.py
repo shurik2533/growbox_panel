@@ -28,8 +28,11 @@ def get_log(date_from, date_to):
         log['last_watering_time_bottom'] = pd.to_datetime(log['log'].apply(lambda x: x['last_watering_time']['bottom']))
         log['light_1'] = log['log'].apply(lambda x: 1 if x['light']['1'] == 'ON' else -1)
         log['light_2'] = log['log'].apply(lambda x: 2 if x['light']['2'] == 'ON' else -1)
+        log['fan_top'] = log['log'].apply(lambda x: x['fan']['top'])
+        log['fan_bottom'] = log['log'].apply(lambda x: x['fan']['bottom'])
 
-        window_short_columns = ['thermometer_top', 'thermometer_bottom', 'thermometer_external', 'co2', 'humidity']
+        window_short_columns = ['thermometer_top', 'thermometer_bottom', 'thermometer_external', 'co2', 'humidity',
+                                'fan_top', 'fan_bottom']
         window_long_columns = ['soil_moisture_top', 'soil_moisture_bottom']
         log[window_short_columns] = log[window_short_columns].rolling(window=WINDOW_SHORT).mean()
         log[window_short_columns] = log[window_short_columns].apply(lambda x: round(x, 2))

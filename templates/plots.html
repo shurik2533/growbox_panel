@@ -10,6 +10,7 @@
 </style>
 <body style="font-family:arial, sans-serif">
 <div id="temperature" class="graph"></div>
+<div id="fan" class="graph"></div>
 <div id="co2" class="graph"></div>
 <div id="humidity" class="graph"></div>
 <div id="soil_moisture" class="graph"></div>
@@ -18,11 +19,13 @@
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script type="text/javascript">
     var temperature = {{temperature_plot | safe}};
+    var fan = {{fan_plot | safe}};
     var co2 = {{co2_plot | safe}};
     var humidity = {{humidity_plot | safe}};
     var soil_moisture = {{soil_moisture_plot | safe}};
     var lighting = {{lighting_plot | safe}};
     Plotly.plot('temperature', temperature, {});
+    Plotly.plot('fan', fan, {});
     Plotly.plot('co2', co2, {});
     Plotly.plot('humidity', humidity, {});
     Plotly.plot('soil_moisture', soil_moisture, {});
